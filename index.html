@@ -15,14 +15,15 @@ button{font:inherit;cursor:pointer}
 :focus-visible{outline:3px solid var(--biru);outline-offset:2px}
 .hide{display:none}
 .brand{display:flex;align-items:center;gap:12px;margin-bottom:32px}
-.brand img{width:46px;height:46px;object-fit:contain}
+.brand img{width:60px;height:60px;object-fit:contain}
 .brand b{display:block;font-size:1.15rem;font-weight:800;letter-spacing:-.01em}
 .sub{color:var(--mut);font-size:.85rem}
 h1{font-size:1.9rem;line-height:1.15;letter-spacing:-.02em;font-weight:800;margin:0 0 6px}
 h2{font-size:1rem;font-weight:800;margin:28px 0 10px}
 .role{display:flex;align-items:center;gap:14px;width:100%;margin-top:12px;padding:14px;background:#fff;border:1px solid var(--line);border-radius:18px;text-align:left;color:var(--ink);transition:transform .12s,border-color .12s}
 .role:hover{border-color:#c9d6cf}.role:active{transform:scale(.985)}
-.ikon{flex:none;width:48px;height:48px;border-radius:14px;display:grid;place-items:center;font-size:1.5rem}
+.ikon{overflow:hidden;flex:none;width:48px;height:48px;border-radius:14px;display:grid;place-items:center;font-size:1.5rem}
+.ikon svg{width:100%;height:100%}
 .role b{display:block;font-weight:800}.role .sub{display:block}
 .role i{margin-left:auto;font-style:normal;color:var(--mut);font-size:1.4rem}
 .status{display:inline-flex;align-items:center;gap:8px;margin-top:28px;font-size:.8rem;color:var(--mut)}
@@ -59,10 +60,10 @@ input,select{font:inherit;width:100%;padding:13px 14px;border:1px solid var(--li
 
   <section id="pilih">
     <h1>Selamat datang</h1>
-    <p class="sub" style="margin:0 0 18px">Pilih peran untuk masuk.</p>
-    <button class="role" data-peran="Guru"><span class="ikon" style="background:var(--biru)">🧑‍🏫</span><span><b>Guru</b><span class="sub">Catat setoran dan penarikan</span></span><i>›</i></button>
-    <button class="role" data-peran="Kepala"><span class="ikon" style="background:var(--merah)">👨‍💼</span><span><b>Kepala Sekolah</b><span class="sub">Pantau seluruh tabungan</span></span><i>›</i></button>
-    <button class="role" data-peran="Wali"><span class="ikon" style="background:var(--kuning)">👨‍👩‍👧</span><span><b>Wali Murid</b><span class="sub">Lihat saldo dan riwayat anak</span></span><i>›</i></button>
+    <p style="margin:0 0 18px;font-weight:600">Login sebagai</p>
+    <button class="role" data-peran="Guru"><span class="ikon" style="background:#e3f2fd"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 4C14 4 10 11 10 19c0 6 2 9 2 12-6 2-8 9-8 17h40c0-8-2-15-8-17 0-3 2-6 2-12 0-8-4-15-14-15z" fill="#1976d2"/><ellipse cx="24" cy="21" rx="8" ry="9.5" fill="#f6d2b0"/><circle cx="20.6" cy="20.5" r="1.1" fill="#3a2a20"/><circle cx="27.4" cy="20.5" r="1.1" fill="#3a2a20"/><path d="M21 25.5q3 2.5 6 0" stroke="#3a2a20" stroke-width="1.2" fill="none" stroke-linecap="round"/></svg></span><span><b>Guru</b><span class="sub">Catat setoran dan penarikan</span></span><i>›</i></button>
+    <button class="role" data-peran="Kepala"><span class="ikon" style="background:#fdeaea"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 4C14 4 10 11 10 19c0 6 2 9 2 12-6 2-8 9-8 17h40c0-8-2-15-8-17 0-3 2-6 2-12 0-8-4-15-14-15z" fill="#e53935"/><ellipse cx="24" cy="21" rx="8" ry="9.5" fill="#f6d2b0"/><circle cx="20.6" cy="20.5" r="1.1" fill="#3a2a20"/><circle cx="27.4" cy="20.5" r="1.1" fill="#3a2a20"/><path d="M21 25.5q3 2.5 6 0" stroke="#3a2a20" stroke-width="1.2" fill="none" stroke-linecap="round"/></svg></span><span><b>Kepala Sekolah</b><span class="sub">Pantau seluruh tabungan</span></span><i>›</i></button>
+    <button class="role" data-peran="Wali"><span class="ikon" style="background:#fff3c4">👨‍👩‍👧</span><span><b>Wali Murid</b><span class="sub">Lihat saldo dan riwayat anak</span></span><i>›</i></button>
     <span class="status" id="status">Memeriksa server…</span>
   </section>
 
