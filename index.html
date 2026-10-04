@@ -48,7 +48,6 @@ input,select{font:inherit;width:100%;padding:13px 14px;border:1px solid var(--li
 .seg{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:var(--soft);padding:5px;border-radius:14px}
 .seg button{border:0;background:none;padding:10px;border-radius:10px;font-weight:600;color:var(--mut)}
 .seg button.on{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
-details{margin-top:14px}summary{cursor:pointer;font-weight:800;padding:6px 0}
 </style>
 </head>
 <body>
@@ -110,7 +109,7 @@ document.querySelectorAll('[data-peran]').forEach(b => b.onclick = () => {
   peran = b.dataset.peran;
   const wali = peran === 'Wali';
   $('#judul').textContent = NAMA[peran];
-  $('#lUser').textContent = wali ? 'ID siswa' : 'Username';
+  $('#lUser').textContent = wali ? 'Nama siswa' : 'Username';
   $('#lPass').textContent = wali ? 'PIN' : 'Kata sandi';
   $('#user').value = ''; $('#pass').value = ''; $('#errMasuk').textContent = '';
   tampil('masuk'); $('#user').focus();
@@ -147,7 +146,7 @@ function riwayat(tr, tampilNama) {
 }
 
 function render(d, pesan) {
-  let h = `<div class="bar"><div><b>${esc(d.nama)}</b><div class="sub">${NAMA[d.peran]}</div></div>
+  let h = `<div class="bar"><div><b>${esc(d.nama)}</b><div class="sub">${NAMA[d.peran]}${d.peran === 'Guru' && d.kelas ? ' · ' + esc(d.kelas) : ''}</div></div>
     <button class="btn ghost" id="keluar">Keluar</button></div>`;
 
   if (d.peran === 'Wali') {
@@ -158,21 +157,16 @@ function render(d, pesan) {
     h += `<div class="kartu"><span class="sub">Total tabungan</span><strong>${rp(d.total)}</strong><span class="sub">${d.siswa.length} siswa</span></div>`;
     if (d.peran === 'Guru') {
       h += `<h2>Catat transaksi</h2><div class="box pad">
-        <label for="fSiswa">Siswa</label><select id="fSiswa">${d.siswa.map(s => `<option value="${esc(s.ID)}">${esc(s.Nama)} (${esc(s.Kelas)})</option>`).join('')}</select>
+        <label for="fSiswa">Siswa</label><select id="fSiswa">${d.siswa.map(s => `<option value="${esc(s.Nama)}">${esc(s.Nama)}</option>`).join('')}</select>
         <label>Jenis</label><div class="seg"><button class="on" data-v="Setor">Setor</button><button data-v="Tarik">Tarik</button></div>
         <label for="fJumlah">Jumlah (Rp)</label><input id="fJumlah" type="number" min="1" inputmode="numeric">
         <label for="fKet">Keterangan</label><input id="fKet" placeholder="Opsional">
         <p class="pesan ${pesan && pesan.err ? 'err' : 'ok'}" id="fPesan">${esc(pesan ? pesan.teks : '')}</p>
-        <button class="btn" id="fSimpan">Simpan transaksi</button></div>
-        <details><summary>Tambah siswa baru</summary><div class="box pad">
-        <label for="nNama">Nama siswa</label><input id="nNama">
-        <label for="nKelas">Kelas</label><input id="nKelas">
-        <p class="pesan" id="nPesan"></p>
-        <button class="btn" id="nSimpan">Tambah siswa</button></div></details>`;
+        <button class="btn" id="fSimpan">Simpan transaksi</button></div>`;
     }
     h += `<h2>Saldo per siswa</h2><div class="box">${d.siswa.map(s => `
       <div class="row"><span class="ava nama">${esc(String(s.Nama).charAt(0).toUpperCase())}</span>
-      <div class="t"><b>${esc(s.Nama)}</b><span class="sub">${esc(s.Kelas)}${s.PIN ? ' · ID ' + esc(s.ID) + ' · PIN ' + esc(s.PIN) : ''}</span></div>
+      <div class="t"><b>${esc(s.Nama)}</b><span class="sub">${esc(s.Kelas)}${s.PIN ? ' · PIN ' + esc(s.PIN) : ''}</span></div>
       <b>${rp(s.Saldo)}</b></div>`).join('')}</div>
       <h2>Transaksi terakhir</h2>${riwayat(d.transaksi, true)}`;
   }
@@ -184,15 +178,9 @@ function render(d, pesan) {
   });
   if ($('#fSimpan')) $('#fSimpan').onclick = async () => {
     $('#fSimpan').disabled = true;
-    const r = await call({ aksi: 'catat', ...S, id: $('#fSiswa').value, jenis: $('.seg .on').dataset.v, jumlah: $('#fJumlah').value, ket: $('#fKet').value });
+    const r = await call({ aksi: 'catat', ...S, nama: $('#fSiswa').value, jenis: $('.seg .on').dataset.v, jumlah: $('#fJumlah').value, ket: $('#fKet').value });
     if (r.ok) muat({ teks: 'Transaksi tersimpan' });
     else { $('#fSimpan').disabled = false; $('#fPesan').className = 'pesan err'; $('#fPesan').textContent = r.pesan; }
-  };
-  if ($('#nSimpan')) $('#nSimpan').onclick = async () => {
-    $('#nSimpan').disabled = true;
-    const r = await call({ aksi: 'siswaBaru', ...S, nama: $('#nNama').value, kelas: $('#nKelas').value });
-    if (r.ok) muat({ teks: 'Siswa ditambahkan: ID ' + r.id + ', PIN ' + r.pin });
-    else { $('#nSimpan').disabled = false; $('#nPesan').className = 'pesan err'; $('#nPesan').textContent = r.pesan; }
   };
 }
 </script>
